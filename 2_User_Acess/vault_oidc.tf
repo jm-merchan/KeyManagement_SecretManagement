@@ -124,6 +124,7 @@ resource "vault_jwt_auth_backend_role" "admin" {
   allowed_redirect_uris = [
     "${data.terraform_remote_state.local_backend.outputs.cluster_primary_fqdn_8200}/ui/vault/auth/oidc/oidc/callback",
     "${data.terraform_remote_state.local_backend.outputs.cluster_pr_fqdn_8200}/ui/vault/auth/oidc/oidc/callback",
+    "${data.terraform_remote_state.local_backend.outputs.cluster_dr_fqdn_8200}/ui/vault/auth/oidc/oidc/callback",
     "http://localhost:8250/oidc/callback"
   ]
 }
