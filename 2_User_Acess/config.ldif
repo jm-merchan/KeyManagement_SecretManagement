@@ -1,0 +1,46 @@
+dn: ou=groups,dc=learn,dc=example
+objectClass: organizationalunit
+objectClass: top
+ou: groups
+description: groups of users
+
+dn: ou=users,dc=learn,dc=example
+objectClass: organizationalunit
+objectClass: top
+ou: users
+description: users
+
+dn: cn=dev,ou=groups,dc=learn,dc=example
+objectClass: groupofnames
+objectClass: top
+description: testing group for dev
+cn: dev
+member: cn=alice,ou=users,dc=learn,dc=example
+
+dn: cn=alice,ou=users,dc=learn,dc=example
+objectClass: person
+objectClass: top
+sn: alice
+memberOf: cn=dev,ou=groups,dc=learn,dc=example
+userPassword: Passw0rd123!
+
+dn: cn=ops,ou=groups,dc=learn,dc=example
+objectClass: groupofnames
+objectClass: top
+description: testing group for ops
+cn: ops
+member: cn=peter,ou=users,dc=learn,dc=example
+
+dn: cn=peter,ou=users,dc=learn,dc=example
+objectClass: person
+objectClass: top
+sn: peter
+memberOf: cn=ops,ou=groups,dc=learn,dc=example
+userPassword: Passw0rd123!
+
+dn: cn=serviceaccount,ou=users,dc=learn,dc=example
+objectClass: person
+objectClass: top
+sn: serviceaccount
+memberOf: cn=dev,ou=groups,dc=learn,dc=example
+userPassword: Passw0rd123!
