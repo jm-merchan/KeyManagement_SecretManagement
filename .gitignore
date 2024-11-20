@@ -12,3 +12,4 @@ service_account_key.json
 *terraform-*
 *.terraform*
 *csr*
+*.hclic

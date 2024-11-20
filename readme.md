@@ -20,7 +20,7 @@ terraform apply -auto-approve -var-file=variables.tfvars
 
 ## 1.2. Inputs
 
-Create a variables.tfvars file using the following inputs
+Create a `variables.tfvars` file using the following inputs
 
 | variable          | Value                  | Type   | Description                                                          |
 | ----------------- | ---------------------- | ------ | -------------------------------------------------------------------- |
@@ -33,16 +33,38 @@ Create a variables.tfvars file using the following inputs
 
 ## 1.3. Initialize Vault
 
-Run the Jupyter Notebook `bootstrap.ipynb` to initialize the three clusters, where one will work as primary cluster, another as performance secondary and finally a DR cluster for the primary one.
+Run the Jupyter Notebook `bootstrap.ipynb` to initialize the three clusters, where one will work as primary (`vault-primary`) cluster, another as performance secondary (`vault-pr`) and finally a DR cluster (`vault-dr`) for the primary one.
+
+### Before initialization
+
+![1732093695803](image/readme/1732093695803.png)
+
+### After initialization
+
+![1732094227603](image/readme/1732094227603.png)
 
 ## 1.4. Build DR and PR
 
 * Run the notebook `dr.ipynb` to set the Disaster Recovery relationship.
 * Run the notebook `pr.ipynb` to build the Performance Replication relationship.
 
-Note that after running both notebooks, all instances with the exception of the leader node on the DR and PR cluster will seal, so you have to reload those PODs so the cluster unseals properly.
+We should see something similar on the `vault-primary` cluster
 
-## 1.5 Export Vault Token and Address
+![1732094837634](image/readme/1732094837634.png)
+
+> Note that after running both notebooks, all instances with the exception of the leader node on the DR and PR cluster will seal, so you have to reload those PODs so the clusters unseal properly.
+
+### DR Nodes status after setting DR
+
+By simply deleting the "faulty" nodes you can resolve this situation
+
+![1732094352596](image/readme/1732094352596.png)
+
+### PR Nodes status after setting PR
+
+![1732094652162](image/readme/1732094652162.png)
+
+## 1.5 Export Vault Token and Address for `vault-primary`
 
 ```bash
 export VAULT_ADDR=$(terraform output -raw cluster_primary_fqdn_8200)
@@ -186,23 +208,28 @@ token_meta_username    alice
 In this folder we have 3 different workflows:
 
 1. A Jupyter Notebook `3.1_KV Secret Engine.ipynb` to create a Static Secret engine KVv2. The Vault address and Token and read from file, files created on a previous cell.
-![alt text](image.png)
-2. Terraform code to build a second KV secret engine that will be integrated with GCP Secrets, by means of Secret Sync functionality. The last two cells of the previous notebooks can be used to run this terraform code.
+   ![alt text](image.png)
+2. Terraform code to build a second KV secret engine that will be integrated with GCP Secrets, by means of `Secret Sync` functionality. The last two cells of the previous notebooks can be used to run this terraform code.
    * Create a .tfvars file and provide a value for the variable `project_id`.
 3. A second Jupyter Notebook (`3.3_VSO.ipynb`) that we will use to deploy workloads in K8S and integrate with Vault via Vault Secret Operator (VSO).
    * Like in the first notebook, we need to update the VAULT_ADDR and VAULT_TOKEN enviromental variables.
-   * The notebook covers the case for static, dynamic and certificates, so we will revisit this notebook as we progress.
+   * The notebook covers the case for `static`, `dynamic` and `certificates`, so we will revisit this notebook as we progress.
 
 # 4. Dynamic Secrets
+
 This folder contains three Jupyter Notebook.
-1. Database Secret Engine (`4.1_Database_Secret_Engine.ipynb`). We will be deploying a postgres database in Kubernetes. The Secret Engine will be configured as `local`, which means it will not be replicated to the Performance Replication cluster. For this database we are going to use `Dynamic Roles`.
-2. LDAP Secret Engine (`4.2LDAP_Secret_Engine.ipynb`). Here we are leveraging the previously installed LDAP Database and make use of both `Static` and `Dynamic Roles`.
-3. GCP Secret Engine (`4.3_GCP_Secret_Engine.ipynb`). We will use this notebook to run the `terraform` code in the folder. Like in the previous cases we need to create a .tfvars file and provide a value for the variable `project_id`.
+
+1. **Database Secret Engine with PostgreSQL** (`4.1_Database_Secret_Engine.ipynb`). We will be deploying a postgres database in Kubernetes. The Secret Engine will be configured as `local`, which means it will not be replicated to the Performance Replication cluster. For this database we are going to use `Dynamic Roles`.
+2. **LDAP Secret Engine** (`4.2LDAP_Secret_Engine.ipynb`). Here we are leveraging the previously installed LDAP Database and make use of both `Static` and `Dynamic Roles`.
+3. **GCP Secret Engine** (`4.3_GCP_Secret_Engine.ipynb`). We will use this notebook to run the `terraform` code in the folder. Like in the previous cases we need to create a .tfvars file and provide a value for the variable `project_id`.
+4. **Database Secret Engine with MongoDB** (`4.4_MongoDB_Secret_Engine.ipynb`)
 
 If we go back to the Jupyter Notebook `3.3_VSO.ipynb` we have a couple of examples of how to integrate VSO with Kubernetes workshops via VSO.
 
 # 5. Encryption platform with Transit
+
 This folder contains a Jupyter Notebook that presents a few examples of:
+
 * Encryption/Decryption
 * Signing and Verification
 * HMAC-ing and Verification
@@ -210,10 +237,21 @@ This folder contains a Jupyter Notebook that presents a few examples of:
 
 # 6. PKI
 
+Contains a Jupyter Notebook that creates two separate CA structures:
+
+* Internal root CA and Intermediate CA managed by Vault
+* External root CA with an Intermediate CA managed by Vault
+
 # 7. KMSE
+
 This folder contains two Jupyter Notebook:
+
 * `gcp_kmse.ipynb` shows how to sync keys with GCP.
 * `aws_kmse.ipynb` shows how to sync keys with AWS.
 
 # 8. KMIP
 
+This folder contains two Jupyter Notebooks:
+
+* One that deploys a mongoDB enterprise instance and configure with KMIP.
+* The other deploys a MySQL enterprise instace with KMIP.
