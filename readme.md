@@ -263,5 +263,6 @@ This folder contains two Jupyter Notebooks:
 # 9. Workload Access
 
 This folder contains terraform code that leverage the previously create PKI and KV Secrets engine to show how to use Vault Agent in two different scenarios:
+
 * Vault agent with GCP Auth Method
 * Vault agent with TLS/Cert Auth Method.
