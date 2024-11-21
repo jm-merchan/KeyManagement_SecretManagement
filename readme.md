@@ -259,3 +259,9 @@ This folder contains two Jupyter Notebooks:
 
 * One that deploys a mongoDB enterprise instance and configure with KMIP.
 * The other deploys a MySQL enterprise instace with KMIP.
+
+# 9. Workload Access
+
+This folder contains terraform code that leverage the previously create PKI and KV Secrets engine to show how to use Vault Agent in two different scenarios:
+* Vault agent with GCP Auth Method
+* Vault agent with TLS/Cert Auth Method.
