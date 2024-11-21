@@ -1,15 +1,10 @@
 *.tfvars
 *.tfstate*
 *.txt
-*.TXT
-service_account_key.json
 *json
 *pem
-*mysql*
-*aws*
 */certs/*
 */root/*
-*terraform-*
 *.terraform*
 *csr*
 *.hclic
