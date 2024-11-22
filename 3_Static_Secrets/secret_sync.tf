@@ -18,11 +18,12 @@ resource "google_project_iam_custom_role" "secret_sync" {
   description = "Custom role for Vault secret sync"
   permissions = [
     # Secret Sync Permissions
+    # https://developer.hashicorp.com/vault/docs/sync/gcpsm#permissions
     "secretmanager.secrets.create",
-    "secretmanager.secrets.get",
     "secretmanager.secrets.delete",
+    "secretmanager.secrets.update", 
     "secretmanager.versions.add",
-    "secretmanager.versions.access",
+    "secretmanager.versions.destroy",
     # KMSE permissions
     "cloudkms.cryptoKeys.create",
     "cloudkms.cryptoKeys.update",
@@ -58,7 +59,7 @@ resource "vault_secrets_sync_gcp_destination" "gcp" {
     "Managed_by" = "HashiCorp Vault"
   }
 }
-
+/*
 resource "local_file" "service_account_key_file" {
   content  = google_service_account_key.secret_sync.private_key
   filename = "service_account_key.json"
@@ -68,3 +69,4 @@ output "private_key" {
   value = google_service_account_key.secret_sync.private_key
   sensitive = true
 }
+*/
