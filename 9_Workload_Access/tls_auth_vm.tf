@@ -6,7 +6,6 @@ locals {
       ROLE       = vault_cert_auth_backend_role.cert.name
       CERT       = vault_pki_secret_backend_cert.app.certificate
       KEY        = vault_pki_secret_backend_cert.app.private_key
-      #CA         = 
     }
   )
 }

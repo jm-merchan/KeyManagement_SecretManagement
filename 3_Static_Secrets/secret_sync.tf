@@ -21,7 +21,7 @@ resource "google_project_iam_custom_role" "secret_sync" {
     # https://developer.hashicorp.com/vault/docs/sync/gcpsm#permissions
     "secretmanager.secrets.create",
     "secretmanager.secrets.delete",
-    "secretmanager.secrets.update", 
+    "secretmanager.secrets.update",
     "secretmanager.versions.add",
     "secretmanager.versions.destroy",
     # KMSE permissions
