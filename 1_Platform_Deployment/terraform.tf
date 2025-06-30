@@ -14,7 +14,7 @@ provider "acme" {
 
 module "vault-primary" {
   source               = "jm-merchan/vaultgke/google"
-  version              = "0.0.3"
+  version              = "0.0.4"
   email                = var.email
   project_id           = var.project_id
   dns_zone_name_ext    = var.dns_zone_name_ext
@@ -37,7 +37,7 @@ module "vault-primary" {
 
 module "vault-pr" {
   source               = "jm-merchan/vaultgke/google"
-  version              = "0.0.3"
+  version              = "0.0.4"
   email                = var.email
   project_id           = var.project_id
   dns_zone_name_ext    = var.dns_zone_name_ext
@@ -59,7 +59,7 @@ module "vault-pr" {
 
 module "vault-dr" {
   source               = "jm-merchan/vaultgke/google"
-  version              = "0.0.3"
+  version              = "0.0.4"
   email                = var.email
   project_id           = var.project_id
   dns_zone_name_ext    = var.dns_zone_name_ext
